@@ -3,7 +3,12 @@ Console game to help you type faster
 
 ## Install
 
-Just use command `go get github.com/Masynchin/fastypes`
+The commands below will give you executable binary
+```
+git clone https://github.com/Masynchin/fastypes.git
+cd fastypes
+go build
+```
 
 ## Usage
 
