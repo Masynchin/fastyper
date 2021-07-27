@@ -68,7 +68,7 @@ func PrepareGame() (chan string, string) {
 }
 
 // Set user input placeholder and put user answer in answer chan
-func GetInput(c chan string) {
+func GetInput(c chan<- string) {
 	fmt.Print("Type this word: ")
 	var word string
 	fmt.Scanln(&word)
