@@ -46,7 +46,7 @@ func PlayGame(guessed int) int {
 	fmt.Println(answer)
 	go GetInput(userInput)
 
-	userAnswer := HandleUserAnswer(userInput, answer)
+	userAnswer := HandleUserAnswer(userInput)
 	if userAnswer == nil {
 		color.Yellow("\ntimed out!")
 		return guessed
@@ -85,7 +85,7 @@ func GenRandomString() string {
 }
 
 // Handle user input and return if not time out else return nil
-func HandleUserAnswer(userInput <-chan string, answer string) *string {
+func HandleUserAnswer(userInput <-chan string) *string {
 	select {
 	case userAnswer := <-userInput:
 		return &userAnswer
