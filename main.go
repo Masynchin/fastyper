@@ -46,14 +46,15 @@ func PlayGame(guessed int) int {
 	fmt.Println(answer)
 	go GetInput(userInput)
 
-	userAnswer := HandleUserAnswer(userInput)
-	if userAnswer == nil {
+	userAnswer, timeout := HandleUserAnswer(userInput)
+	switch {
+	case timeout:
 		color.Yellow("\ntimed out!")
 		return guessed
-	} else if *userAnswer != answer {
+	case userAnswer != answer:
 		color.Red("incorrect!")
 		return guessed
-	} else {
+	default:
 		color.Green("correct!\n\n")
 		guessed++
 		return PlayGame(guessed)
@@ -85,11 +86,11 @@ func GenRandomString() string {
 }
 
 // Handle user input and return if not time out else return nil
-func HandleUserAnswer(userInput <-chan string) *string {
+func HandleUserAnswer(userInput <-chan string) (string, bool) {
 	select {
 	case userAnswer := <-userInput:
-		return &userAnswer
+		return userAnswer, false
 	case <-time.After(time.Duration(timeoutSeconds) * time.Second):
-		return nil
+		return "", true
 	}
 }
