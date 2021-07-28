@@ -35,30 +35,36 @@ func main() {
 	}
 
 	var guessed int
-	guessed = PlayGame(guessed)
-	color.Green("\nGuessed: %v", guessed)
+	defer func() {
+		color.Green("\nGuessed: %v", guessed)
+	}()
+
+	for {
+		isCorrect, timeout := PlayRound()
+		switch {
+		case timeout:
+			color.Yellow("\ntimed out!")
+			return
+		case !isCorrect:
+			color.Red("incorrect!")
+			return
+		default:
+			guessed++
+			color.Green("correct!\n\n")
+		}
+	}
 }
 
 // One round of game: correct answer - go next, incorrect - finish.
 // Count guessed answers via recursion and return
-func PlayGame(guessed int) int {
+func PlayRound() (isCorrect bool, timeout bool) {
 	userInput, answer := PrepareGame()
 	fmt.Println(answer)
 	go GetInput(userInput)
 
 	userAnswer, timeout := HandleUserAnswer(userInput)
-	switch {
-	case timeout:
-		color.Yellow("\ntimed out!")
-		return guessed
-	case userAnswer != answer:
-		color.Red("incorrect!")
-		return guessed
-	default:
-		color.Green("correct!\n\n")
-		guessed++
-		return PlayGame(guessed)
-	}
+	isCorrect = (userAnswer == answer)
+	return
 }
 
 // Create variables used by game
