@@ -25,7 +25,7 @@ func init() {
 }
 
 // Set random seed and run game.
-// After game show how many was guessed
+// After the game show how many was guessed
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
@@ -55,8 +55,8 @@ func main() {
 	}
 }
 
-// One round of game: correct answer - go next, incorrect - finish.
-// Count guessed answers via recursion and return
+// One round of game - return correctness of user answer flag
+// and timeout flag if user didn't respond in time
 func PlayRound() (isCorrect bool, timeout bool) {
 	userInput, answer := PrepareGame()
 	fmt.Println(answer)
@@ -67,7 +67,7 @@ func PlayRound() (isCorrect bool, timeout bool) {
 	return
 }
 
-// Create variables used by game
+// Create variables used by game round
 func PrepareGame() (chan string, string) {
 	userInput := make(chan string)
 	answer := GenRandomString()
@@ -82,7 +82,7 @@ func GetInput(c chan<- string) {
 	c <- word
 }
 
-// Generate random string for game
+// Generate random string for game round
 func GenRandomString() string {
 	result := make([]byte, answerLength)
 	for i := range result {
@@ -91,7 +91,8 @@ func GenRandomString() string {
 	return string(result)
 }
 
-// Handle user input and return if not time out else return nil
+// Handle user input and return answer with empty timeout flag
+// if user had time to answer else empty string with true timeout flag
 func HandleUserAnswer(userInput <-chan string) (string, bool) {
 	select {
 	case userAnswer := <-userInput:
