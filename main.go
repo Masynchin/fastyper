@@ -34,11 +34,13 @@ func main() {
 		log.Fatal(errors.New("options must be greater than or equal to 1"))
 	}
 
-	var guessed int
-	defer func() {
-		color.Green("\nGuessed: %v", guessed)
-	}()
+	guessed := PlayGame()
+	color.Green("\nGuessed: %v", guessed)
+}
 
+// Main game process - play rounds until user's answer
+// is one of incorrect or timeout
+func PlayGame() (guessed int) {
 	for {
 		isCorrect, timeout := PlayRound()
 		switch {
