@@ -5,14 +5,14 @@ Console game to help you type faster
 
 The commands below will give you executable binary
 ```
-git clone https://github.com/Masynchin/fastypes.git
-cd fastypes
+git clone https://github.com/Masynchin/fastyper.git
+cd fastyper
 go build
 ```
 
 ## Usage
 
-Command `fastypes` will run game with default rules - 4-length words and 10 seconds per move
+Command `fastyper` will run game with default rules - 4-length words and 10 seconds per move
 
 ### Options
 
